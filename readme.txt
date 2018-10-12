@@ -4,7 +4,7 @@ Donate Link: https://paypal.me/xhynk
 Tags: Team Members, Teams, About Us, Members, Team
 Requires at Least: 4.1
 Tested Up To: 4.9.8
-Stable tag: 0.2.1.1
+Stable tag: 0.2.1.2
 Requires PHP: 5.6
 Author URI: https://xhynk.com/
 License: GPLv2 or later
