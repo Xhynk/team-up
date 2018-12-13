@@ -2,7 +2,7 @@
 /**
 	* Plugin Name:	Team Up
 	* Description:	Easily Manage Team Members
-	* Version:		0.2.1.3
+	* Version:		0.2.1.4
 	* Author:		Alex Demchak
 	* Author URI:	http://xhynk.com/
 

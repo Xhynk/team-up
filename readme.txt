@@ -4,7 +4,7 @@ Donate Link: https://paypal.me/xhynk
 Tags: Team Members, Teams, About Us, Members, Team
 Requires at Least: 4.1
 Tested Up To: 4.9.8
-Stable tag: 0.2.1.3
+Stable tag: 0.2.1.4
 Requires PHP: 5.6
 Author URI: https://xhynk.com/
 License: GPLv2 or later
@@ -23,6 +23,9 @@ Easily Manage Team Members in an attractive "Card Style"
 2. Activate the Team Up plugin.
 
 == Changelog ==
+= 0.2.1.4 =
+* Medley of fixes and additions
+
 = 0.2.1.1 =
 * Prevented non-boolean values on toggle fields
 * Sanitized text field options
