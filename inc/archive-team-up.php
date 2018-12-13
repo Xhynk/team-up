@@ -12,6 +12,11 @@
 		return $classes;
 	});
 
+	// Maybe Force Layout
+	if( get_option( '_team_up_force_genesis_full_width' ) == true ){
+		add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
+	}
+
 	add_action( 'wp_head', function(){
 		$accent_hex = ( $color = get_option( '_team_up_accent_color' ) ) ? $color : '#006191';
 		$accent_rgb = Team_Up::hex_to_rgb( $accent_hex ); ?>
@@ -29,6 +34,13 @@
 			.team-up-header:before {
 				border-color: rgba(<?php echo Team_Up::hex_to_rgb( Team_Up::adjust_brightness( $accent_hex, 150 ) ); ?>, .17) !important;
 			}
+			.team-up-filter a.button {
+				background-color: <?php echo $accent_hex; ?> !important;
+			}
+			.team-up-filter a.button:hover,
+			.team-up-filter a.button.active {
+				background-color: <?php echo Team_Up::adjust_brightness( $accent_hex, 20 ); ?> !important;
+			}
 		</style>
 	<?php });
 
@@ -41,6 +53,9 @@
 		$counter = 0;
 
 		if( have_posts() ) :
+
+			do_action( 'team_up_archive_filter' );
+
 			echo '<div class="team-up team-up-grid">';
 				while( have_posts() ) : the_post(); ?>
 				<?php
@@ -57,8 +72,8 @@
 						}
 					}
 
-					if( ! $profile_picture = get_the_post_thumbnail_url( $post_id, array(480, 680) ) ){
-						$profile_picture = 'https://via.placeholder.com/480x640/';
+					if( ! $profile_picture = get_the_post_thumbnail_url( $post_id, 'team_up_tall_crop' ) ){
+						$profile_picture = 'https://xhynk.com/placeholder/480/640/'.get_the_title();
 					}
 
 					$classes = 'team-up-member';
@@ -70,6 +85,9 @@
 							$term_list .= "{$term->name}, ";
 							$classes   .= " team-up-{$term->slug}";
 						}
+					} else {
+						$term_list = '';
+						$classes = 'team-up-member';
 					}
 
 					// Allow Departments to be hidden
@@ -90,20 +108,22 @@
 							<?php if( $term_list ) echo '<div class="team-up-departments">'. substr( $term_list, 0, -2 ) .'</div>'; ?>
 						</div>
 						<div class="team-up-footer">
-							<div class="team-up-contact">
-								<?php if( !empty( $meta ) ){ ?>
+							<?php if( $meta['_team_up_phone'] || $meta['_team_up_email'] ){ ?>
+								<div class="team-up-contact">
 									<ul>
 										<?php if( $meta['_team_up_phone'] ){ ?><li><?php echo Team_Up::display_svg( 'phone' ) ?> <?php echo $meta['_team_up_phone'] ?></li><?php } ?>
 										<?php if( $meta['_team_up_email'] ){ ?><li><a href="mailto:<?php echo $meta['_team_up_email']; ?>"><?php echo Team_Up::display_svg( 'email' ); ?> <?php echo $email; ?></a></li><?php } ?>
 									</ul>
-								<?php } ?>
-							</div>
+								</div>
+							<?php } else { echo '<div style="height: 6px;"></div>'; } ?>
 						<div class="team-up-bio">
 							<?php
-								if( strlen( strip_tags( $content ) ) > $limit ){
-									echo substr( $content, 0, strpos( $content, ' ', $limit ) ).'… '. Team_Up::display_svg( 'arrow-right' );
+								$bio_content = strip_tags( $content );
+
+								if( strlen( $bio_content ) > $limit ){
+									echo substr( $bio_content, 0, strpos( $bio_content, ' ', $limit ) ).'… '. Team_Up::display_svg( 'arrow-right' );
 								} else {
-									echo $content;
+									echo $bio_content;
 								}
 							?>
 						</div>

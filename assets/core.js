@@ -51,4 +51,51 @@ jQuery(document).ready(function($){
 
 		closeTeamUpPopup();
 	});
+
+	$('.team-up-filter').on( 'click', 'a', function(e){
+		e.preventDefault();
+
+		var $targetGrid = $(this).closest('.team-up-filter').next('.team-up-grid'),
+			$buttons    = $(this).siblings(),
+			selector    = $(this).attr('data-target'),
+			classname   = selector.replace('.', '');
+			spacer      = 100; 
+
+		$buttons.each(function(){
+			$(this).removeClass('active');
+		});
+
+		$(this).addClass('active');
+
+		// I actually think I like the pop-in look a bit better
+		//$targetGrid.find('.team-up-member:not('+selector+')').each( function(){
+		//	if( $(this).is(':visible') || !$(this).hasClass('team-up-hidden') ){
+		//		$(this).addClass('team-up-hidden');
+		//	}
+		//});
+		//setTimeout( function(){
+		//	$targetGrid.find(selector).each(function(){
+		//		if( $(this).is(':hidden') || $(this).hasClass('team-up-hidden') ){
+		//			$(this).removeClass('team-up-hidden');
+		//		}
+		//	});
+		//}, timer );
+
+		$targetGrid.find('.team-up-member').each(function(){
+			if( $(this).hasClass(classname)){
+				// Show Selected Elements
+				if( $(this).hasClass('team-up-hidden') ){
+					// Currently Hidden
+					$(this).removeClass('team-up-hidden');
+				} else {
+					// Currently Showing, Fix this later
+				}
+			} else {
+				// Hide the rest
+				$(this).addClass('team-up-hidden');
+			}
+		});
+
+		return false;
+	});
 });

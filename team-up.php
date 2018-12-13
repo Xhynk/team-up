@@ -29,6 +29,7 @@ class Team_Up {
 	 * Set the Class Instance
 	 */
 	static $instance;
+	static $popup_counter = 0;
 	static $shortcode_counter = 0;
 	static $social_networks   = array(
 		'Facebook',
@@ -83,7 +84,7 @@ class Team_Up {
 	}
 
 	public function __construct(){
-		add_action( 'init', [$this, 'create_post_type'] );
+		add_action( 'init', [$this, 'create_post_type'], 12 );
 		add_action( 'save_post', [$this, 'save_meta'], 10, 1 );
 		add_action( 'admin_init', [$this, 'show_all_team_members'] );
 		add_action( 'admin_menu', [$this, 'register_admin_page'] );
@@ -96,6 +97,8 @@ class Team_Up {
 		add_action( 'wp_enqueue_scripts', [$this, 'enqueue_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [$this, 'exclusive_admin_assets'] );
 		add_action( 'manage_team-up_posts_custom_column' , [$this, 'manage_column_content'], 10, 2 );
+
+		add_action( 'team_up_archive_filter', [$this, 'team_up_archive_default_filter'] );
 
 		add_action( 'wp_ajax_modify_team_up_option', [$this, 'modify_team_up_option'] );
 		add_action( 'wp_ajax_toggle_team_up_option', [$this, 'toggle_team_up_option'] );
@@ -136,8 +139,23 @@ class Team_Up {
 		}
 	}
 
+	public function team_up_archive_default_filter(){
+		// Get Terms for Filtering
+		$terms = get_terms( array( 'taxonomy' => 'department', 'hide_empty' => true ) );
+		if( count( $terms ) > 1 ){
+			// If at least 2 terms
+			echo '<section class="team-up-filter">';
+				// Default All
+				echo "<a class='button' href='#all' data-target='.team-up-member'>All</a>";
+				foreach( $terms as $term ){
+					echo "<a class='button' href='#{$term->slug}' data-target='.team-up-{$term->slug}'>{$term->name}</a>";
+				}
+			echo '</section>';
+		}
+	}
+
 	public function register_shortcodes(){
-		require_once plugin_dir_path( __FILE__ ) . 'inc/shortcode-team-member.php';
+		require_once plugin_dir_path( __FILE__ ) . 'inc/shortcodes-controller.php';
 	}
 
 	public function json_response( $status = 501, $message = '', $additional_info = null ){
@@ -465,7 +483,7 @@ class Team_Up {
 			wp_enqueue_style( 'wp-color-picker' );
     		wp_enqueue_script( 'wp-color-picker');
 
-			wp_enqueue_script( 'tableDnD-team-up', "$assets_dur/tableDnD.min.js", array('jquery'), '1.0.3', true );
+			wp_enqueue_script( 'tableDnD-team-up', "$assets_dir/tableDnD.min.js", array('jquery'), '1.0.3', true );
 			wp_enqueue_script( 'team-up-admin', "$assets_dir/admin.js", array('jquery', 'tableDnD-team-up'), filemtime( plugin_dir_path( __FILE__ ) . 'assets/admin.js' ), true );
 			wp_enqueue_style( 'team-up-admin', "$assets_dir/admin.css", null, filemtime( plugin_dir_path( __FILE__ ) . 'assets/admin.css' ) );
 		}
@@ -611,7 +629,7 @@ class Team_Up {
 	}
 
 	public function archive_template( $archive_template ){
-		if( is_post_type_archive( 'team-up' ) || ( is_tax( 'department' ) &&  get_post_type() == 'team-up' ) )
+		if( is_post_type_archive( 'team-up' ) || ( is_tax( 'department' ) && get_post_type() == 'team-up' ) )
 			$archive_template = dirname(__FILE__).'/inc/archive-team-up.php';
 
 		return $archive_template;

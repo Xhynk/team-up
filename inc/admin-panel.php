@@ -1,10 +1,11 @@
 <?php
-#error_reporting(E_ALL);
-#ini_set('display_errors',1);
+	#error_reporting(E_ALL);
+	#ini_set('display_errors',1);
 
 	$options = array(
 		'square_theme',
 		'hide_department',
+		'force_genesis_full_width'
 	);
 
 	foreach( $options as $option ){
@@ -54,5 +55,20 @@
 				<input type="text" name="_team_up_accent_color" id="_team_up_accent_color" class="color-field" data-default-color="#006191" value="<?php echo ( $color = get_option( '_team_up_accent_color' ) ) ? $color : '#006191'; ?>" />
 			</label>
 		</div>
+		<br>
+		<?php if( function_exists( 'genesis' ) ){ ?>
+			<div class="team-up-option">
+				<label class="team-up-checkbox" for="_team_up_force_genesis_full_width" data-attr="<?php echo $force_genesis_full_width_enabled; ?>">
+					<span class="display-name" aria-label="Force Genesis Full Page"></span>
+					<input type="checkbox" name="_team_up_force_genesis_full_width" id="_team_up_force_genesis_full_width" <?php echo $force_genesis_full_width_checked; ?> />
+					<span class="team-up-check">
+						<span class="team-up-check_ajax">
+							<?php echo Team_Up::display_svg( 'checkmark', 'icon' ); ?>
+						</span>
+					</span>
+				</label>
+				<span class="team-up-option_label">Force Genesis Full Width Layour is <strong class="team-up-value"><?php echo ucwords( $force_genesis_full_width_enabled ); ?></strong></span>
+			</div>
+		<?php } ?>
 	</div>
 </div>

@@ -414,6 +414,71 @@
 	opacity: 1;
 }
 
+/* Small Modifications */
+.team-up-small .team-up-member {
+	width: 240px;
+	height: 390px;
+	margin-right: 10px;
+}
+
+.team-up-small .team-up-member .team-up-header {
+	height: 320px;
+}
+
+.team-up-small .team-up-member .team-up-header:before,
+.team-up-small .team-up-member .team-up-header:hover:before {
+	display: none !important;
+}
+
+.team-up-small .team-up-footer {
+	top: 320px;
+}
+
+.team-up-small .team-up-bio {
+	margin: 0;
+}
+
+.team-up-small h4.team-up-name {
+	font-size: 16px;
+	font-weight: 100;
+	margin: 6px 0;
+}
+
+/* Modify on Shortcodes only */
+.team-up-shortcode .team-up-member {
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+/* Archive Filter */
+.team-up-filter {
+    text-align: center;
+}
+
+.team-up-filter a.button {
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.team-up-member {
+	transition: .4s transform, .25s opacity;
+	transform: scale(1);
+	position: relative;
+}
+
+.team-up-member.team-up-hidden {
+	transform: scale(0);
+	opacity: 0;
+	position: absolute;
+	top: -1000px;
+	left: -1000px;
+}
+
+.team-up-member.team-up-pop-in {
+	transform: scale(0);
+	opacity: 0;
+}
+
 @media (max-width: 500px){
 	.team-up-popup .team-up-popup-photo {
 		width: 180px;
