@@ -112,7 +112,7 @@
 								<div class="team-up-contact">
 									<ul>
 										<?php if( $meta['_team_up_phone'] ){ ?><li><?php echo Team_Up::display_svg( 'phone' ) ?> <?php echo $meta['_team_up_phone'] ?></li><?php } ?>
-										<?php if( $meta['_team_up_email'] ){ ?><li><a href="mailto:<?php echo $meta['_team_up_email']; ?>"><?php echo Team_Up::display_svg( 'email' ); ?> <?php echo $email; ?></a></li><?php } ?>
+										<?php if( $meta['_team_up_email'] ){ ?><li><a href="mailto:<?php echo $meta['_team_up_email']; ?>"><?php echo Team_Up::display_svg( 'mail' ); ?> <?php echo $meta['_team_up_email']; ?></a></li><?php } ?>
 									</ul>
 								</div>
 							<?php } else { echo '<div style="height: 6px;"></div>'; } ?>

@@ -67,7 +67,7 @@
 						</span>
 					</span>
 				</label>
-				<span class="team-up-option_label">Force Genesis Full Width Layour is <strong class="team-up-value"><?php echo ucwords( $force_genesis_full_width_enabled ); ?></strong></span>
+				<span class="team-up-option_label">Force Genesis Full Width Layout is <strong class="team-up-value"><?php echo ucwords( $force_genesis_full_width_enabled ); ?></strong></span>
 			</div>
 		<?php } ?>
 	</div>
